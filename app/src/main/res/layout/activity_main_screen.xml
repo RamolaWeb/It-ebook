@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="ramola.com.it_ebook.MainScreen">
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card_view_main_screen"
-app:cardElevation="8dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    app:cardElevation="8dp"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="2dp"
     >
@@ -18,7 +18,7 @@ app:cardElevation="8dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="horizontal">
-        <TextView
+        <EditText
             android:padding="15dp"
             android:textSize="25sp"
             android:layout_width="0dp"
