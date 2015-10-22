@@ -38,7 +38,8 @@ app:cardElevation="8dp"
 <RecyclerView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/recycler_list_main">
+    android:id="@+id/recycler_list_main"
+    android:layout_below="@+id/card_view_main_screen">
 
     </RecyclerView>
 </RelativeLayout>
