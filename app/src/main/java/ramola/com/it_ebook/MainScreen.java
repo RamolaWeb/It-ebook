@@ -23,7 +23,7 @@ public class MainScreen extends ActionBarActivity {
     RecyclerView recyclerView;
     MainAdapter adapter;
     ArrayList<Item_main> list;
-    String url="http://api.nytimes.com/svc/news/v3/content/all/Technology?api-key=84ced263117a1e6d770f560e9ca6f079:0:73275181";
+    String url="http://api.nytimes.com/svc/news/v3/content/all/Technology;world?api-key=84ced263117a1e6d770f560e9ca6f079:0:73275181";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +39,18 @@ public class MainScreen extends ActionBarActivity {
             String url;
             try {
                 JSONArray data=new JSONArray(jsonObject.getString("results"));
-                for(int i=0;i<=data.length();i++){
+                for(int i=0;i<=data.length()-1;i++){
                     JSONObject dataItem=data.getJSONObject(i);
-                    JSONArray urlpic=new JSONArray(dataItem.getString("multimedia"));
-                    JSONObject urlpicItem=urlpic.getJSONObject(urlpic.length()-1);
-                    url=urlpicItem.getString("url");
-                    list.add(new Item_main(dataItem.getString("section"),dataItem.getString("title"),dataItem.getString("abstract"),url));
+                    if(dataItem.getString("multimedia").length()!=0) {
+                        JSONArray urlpic = new JSONArray(dataItem.getString("multimedia"));
+                        if (urlpic.length() != 0) {
+                            JSONObject urlpicItem = urlpic.getJSONObject(urlpic.length() - 1);
+                            url = urlpicItem.getString("url");
+                            list.add(new Item_main(dataItem.getString("section"), dataItem.getString("title"), dataItem.getString("abstract"), url,dataItem.getString("url")));
+                        }
+                    }
+                    else
+                        list.add(new Item_main(dataItem.getString("section"),dataItem.getString("title"),dataItem.getString("abstract"),dataItem.getString("url")));
                adapter.notifyDataSetChanged();
                 }
             } catch (JSONException e) {

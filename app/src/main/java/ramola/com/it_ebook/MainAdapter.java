@@ -1,10 +1,13 @@
 package ramola.com.it_ebook;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,21 +33,39 @@ ImageLoader imageLoader;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.section.setText(list.get(position).Section);
         holder.title.setText(list.get(position).title);
         holder.description.setText(list.get(position).description);
-        imageLoader.get(list.get(position).url,new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                holder.image.setImageBitmap(imageContainer.getBitmap());
-            }
+        if(list.get(position).url!=null&&list.get(position).url.length()!=0) {
+            imageLoader.get(list.get(position).url, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                    holder.image.setImageBitmap(imageContainer.getBitmap());
+                }
 
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    volleyError.printStackTrace();
+                }
+            });
+        }
+        else holder.image.setImageResource(R.drawable.ic_launcher);
+        holder.more.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            volleyError.printStackTrace();
+            public void onClick(View view) {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(list.get(position).url_more)));
             }
         });
+       holder.share.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent i=new Intent(Intent.ACTION_SEND);
+               i.setType("text/plain");
+               i.putExtra(Intent.EXTRA_TEXT,list.get(position).title+" Read more at \n "+list.get(position).url_more);
+              context.startActivity(Intent.createChooser(i,"SHARE VIA"));
+           }
+       });
     }
 
     @Override
@@ -55,12 +76,15 @@ ImageLoader imageLoader;
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView section,title,description;
         ImageView image;
+        Button share,more;
         public ViewHolder(View itemView) {
             super(itemView);
             section= (TextView) itemView.findViewById(R.id.section_row_main);
             title= (TextView) itemView.findViewById(R.id.title_row_main);
             description= (TextView) itemView.findViewById(R.id.description_row_main);
             image= (ImageView) itemView.findViewById(R.id.image_row_main);
+            share= (Button) itemView.findViewById(R.id.share_row_main);
+            more= (Button) itemView.findViewById(R.id.btn_more_row_main);
         }
     }
 }

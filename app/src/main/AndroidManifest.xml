@@ -10,7 +10,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+       >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -24,14 +25,16 @@
             android:name=".detail"
             android:label="@string/title_activity_detail" >
             <intent-filter>
-                <action android:name="ramola.com.it_ebook.detail" />
+                <action android:name="ramola.com.it_ebook.detail"
+                    />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainScreen"
-            android:label="@string/title_activity_main_screen" >
+            android:label="@string/title_activity_main_screen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
